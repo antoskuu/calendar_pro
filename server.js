@@ -11,7 +11,7 @@ const BASE_PATH = '/calendar-pro';
 app.use(cors());
 
 // Servir les fichiers statiques du répertoire actuel
-app.use(BASE_PATH, express.static('public'));
+app.use(`${BASE_PATH}`, express.static('public'));
 
 // Créer le dossier de cache s'il n'existe pas
 const cacheDir = path.join(__dirname, 'cache');
@@ -174,7 +174,7 @@ app.get(`${BASE_PATH}/api/weeks`, (req, res) => {
 });
 
 // Endpoint pour récupérer un calendrier
-app.get('/api/calendar', async (req, res) => {
+app.get(`${BASE_PATH}/api/calendar`, async (req, res) => {
     // Récupérer les paramètres
     const { promo, groupe, weekOffset = 0 } = req.query;
     
@@ -221,20 +221,20 @@ app.get('/api/calendar', async (req, res) => {
 });
 
 // Endpoint pour forcer le rechargement des calendriers
-app.get('/api/reload-calendars', (req, res) => {
+app.get(`${BASE_PATH}/api/reload-calendars`, (req, res) => {
     preloadAllCalendars();
     res.json({ success: true, message: 'Calendar reloading started' });
 });
 
 // Endpoint pour effacer le cache si nécessaire
-app.get('/api/clear-cache', (req, res) => {
+app.get(`${BASE_PATH}/api/clear-cache`, (req, res) => {
     calendarCache.clear();
     res.json({ success: true, message: 'Cache cleared successfully' });
 });
 
 // Route par défaut
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
+    res.redirect(BASE_PATH);
 });
 
 // Démarrer le serveur

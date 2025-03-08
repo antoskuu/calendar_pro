@@ -519,7 +519,7 @@ END:VEVENT
      * Récupérer les semaines disponibles
      */
     function fetchAvailableWeeks() {
-        return fetch('/api/weeks')
+        return fetch('/calendar-pro/api/weeks')
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Failed to fetch available weeks');

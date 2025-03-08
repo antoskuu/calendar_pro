@@ -1,0 +1,374 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+    transition: background-color 0.3s ease;
+}
+
+/* Styles pour le mode sombre */
+[data-bs-theme="dark"] {
+    --fc-border-color: #444;
+    --fc-page-bg-color: #222;
+    --fc-neutral-bg-color: #333;
+    --fc-neutral-text-color: #fff;
+    --fc-event-selected-overlay-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-bs-theme="dark"] body {
+    background-color: #212529;
+    color: #f8f9fa;
+}
+
+[data-bs-theme="dark"] .card {
+    background-color: #2c3034;
+    border-color: #444;
+}
+
+[data-bs-theme="dark"] .card-header {
+    background-color: #212529;
+    border-color: #444;
+}
+
+[data-bs-theme="dark"] .list-group-item {
+    background-color: #2c3034;
+    border-color: #444;
+    color: #f8f9fa;
+}
+
+[data-bs-theme="dark"] .form-control,
+[data-bs-theme="dark"] .form-select {
+    background-color: #343a40;
+    border-color: #444;
+    color: #f8f9fa;
+}
+
+[data-bs-theme="dark"] .text-muted {
+    color: #adb5bd !important;
+}
+
+/* Styles pour les calendriers */
+.calendar-container {
+    height: auto;
+    min-height: 600px;
+}
+
+/* Styles pour la légende */
+.legend-color {
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    margin-right: 10px;
+}
+
+.bg-4a {
+    background-color: #4285f4;
+}
+
+.bg-3a {
+    background-color: #34a853;
+}
+
+.bg-conflict {
+    background-color: #ea4335;
+    background-image: repeating-linear-gradient(45deg, transparent, transparent 5px, rgba(0,0,0,.1) 5px, rgba(0,0,0,.1) 10px);
+}
+
+/* Styles pour les événements du calendrier */
+.fc-event {
+    cursor: pointer;
+}
+
+.fc-event.event-4a {
+    background-color: #4285f4;
+    border-color: #3b77db;
+}
+
+.fc-event.event-3a {
+    background-color: #34a853;
+    border-color: #2d9249;
+}
+
+.fc-event.event-conflict {
+    background-color: #ea4335;
+    border-color: #d62516;
+    background-image: repeating-linear-gradient(45deg, transparent, transparent 5px, rgba(0,0,0,.1) 5px, rgba(0,0,0,.1) 10px);
+}
+
+/* Styles pour les filtres de cours */
+.course-checkbox {
+    margin-bottom: 8px;
+}
+
+#calendar {
+    height: auto;
+    min-height: 700px;
+}
+
+.card {
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    margin-bottom: 1rem;
+    height: fit-content;
+}
+
+.card-header {
+    background-color: #f1f3f5;
+    font-weight: 600;
+}
+
+/* Ajustements pour le mode sombre */
+[data-bs-theme="dark"] .card-header {
+    background-color: #343a40;
+}
+
+/* Styles pour les listes de filtres de cours */
+.course-list {
+    max-height: 300px;
+    overflow-y: auto;
+    margin-bottom: 1rem;
+}
+
+.course-filter-item {
+    padding: 0.5rem 1rem;
+}
+
+.course-filter-item .badge {
+    margin-right: 0.5rem;
+    min-width: 70px;
+    text-align: center;
+}
+
+/* Styles pour les boutons de filtres */
+.btn-sm {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+}
+
+/* Mettre en évidence les groupes actifs */
+.group3a-toggle:checked + label {
+    font-weight: bold;
+}
+
+/* Styles pour les groupes de cours */
+.course-group-card {
+    margin-bottom: 1rem;
+}
+
+#deleteGroupBtn {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+#groupName {
+    max-width: 200px;
+}
+
+/* Styles pour les notifications toast */
+#toast-container {
+    z-index: 1100;
+}
+
+.toast {
+    min-width: 250px;
+    background-color: #fff;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+/* Adaptation pour le mode sombre */
+[data-bs-theme="dark"] .toast {
+    background-color: #343a40;
+    color: #f8f9fa;
+}
+
+.toast-header {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
+}
+
+[data-bs-theme="dark"] .toast-header {
+    background-color: #212529;
+    border-bottom: 1px solid #444;
+    color: #f8f9fa;
+}
+
+.toast-body {
+    padding: 0.75rem;
+}
+
+/* Ajustements responsives */
+@media (max-width: 992px) {
+    #calendar {
+        min-height: 600px;
+    }
+    
+    .calendar-container {
+        min-height: 450px;
+    }
+
+    .card-body {
+        padding: 0.75rem;
+    }
+    
+    h1 {
+        font-size: 1.8rem;
+    }
+}
+
+@media (max-width: 576px) {
+    #calendar {
+        min-height: 500px;
+    }
+    
+    .calendar-container {
+        min-height: 300px;
+        margin-bottom: 1rem;
+    }
+    
+    .card-body {
+        padding: 0.5rem;
+    }
+
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    #weekLabel {
+        display: block;
+        width: 100%;
+        margin: 0.5rem 0;
+        text-align: center;
+    }
+    
+    .card-header {
+        padding: 0.5rem 0.75rem;
+    }
+    
+    .btn {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.875rem;
+        margin: 0.25rem;
+    }
+    
+    .row > div {
+        overflow: visible;
+        clear: both;
+    }
+}
+
+/* Pour les écrans très petits, réduire davantage */
+@media (max-width: 400px) {
+    #calendar {
+        min-height: 400px;
+    }
+    
+    h1 {
+        font-size: 1.5rem;
+    }
+    
+    .btn {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.875rem;
+    }
+    
+    .card-body {
+        padding: 0.25rem;
+    }
+
+    .course-list {
+        max-height: 200px;
+    }
+}
+
+/* Ajout de styles pour corriger les problèmes de responsive */
+
+/* Ajustement du calendrier pour tous les écrans */
+.calendar-container {
+    height: auto;
+    min-height: 600px;
+}
+
+#calendar {
+    height: auto;
+    min-height: 700px;
+}
+
+/* Amélioration de l'espacement et de la structure des éléments */
+.card {
+    margin-bottom: 1rem;
+    height: fit-content;
+}
+
+/* Ajustements responsives ciblés */
+@media (max-width: 992px) {
+    /* Écrans moyens (tablettes) */
+    #calendar {
+        min-height: 600px;
+    }
+    
+    .card-body {
+        padding: 0.75rem;
+    }
+    
+    /* Assurer que le texte ne soit pas trop gros */
+    h1 {
+        font-size: 1.8rem;
+    }
+}
+
+@media (max-width: 576px) {
+    /* Petits écrans (téléphones) */
+    #calendar {
+        min-height: 500px;
+    }
+    
+    /* Réduire la taille du titre */
+    h1 {
+        font-size: 1.5rem;
+    }
+    
+    /* Assurer que le label de semaine s'affiche correctement */
+    #weekLabel {
+        display: block;
+        width: 100%;
+        margin: 0.5rem 0;
+        text-align: center;
+    }
+    
+    /* Améliorer la hiérarchie visuelle */
+    .card-header {
+        padding: 0.5rem 0.75rem;
+    }
+    
+    .card-body {
+        padding: 0.5rem;
+    }
+    
+    /* Assurer que les boutons de navigation s'affichent correctement */
+    .btn {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.875rem;
+        margin: 0.25rem;
+    }
+    
+    /* Forcer les éléments à ne pas se chevaucher */
+    .row > div {
+        overflow: visible;
+        clear: both;
+    }
+}
+
+/* Spécifique aux très petits écrans */
+@media (max-width: 400px) {
+    /* Très petits écrans (téléphones compacts) */
+    #calendar {
+        min-height: 400px;
+    }
+    
+    /* Simplifier l'affichage au maximum */
+    .card-body {
+        padding: 0.25rem;
+    }
+    
+    /* Réduire la hauteur des listes de filtres */
+    .course-list {
+        max-height: 200px;
+    }
+}

@@ -1,0 +1,26 @@
+{
+  "name": "calendar_pro",
+  "version": "1.0.0",
+  "description": "Application pour visualiser et gérer les calendriers de cours INSA",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "keywords": [
+    "calendar",
+    "insa",
+    "schedule"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.8.1",
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "node-cron": "^3.0.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}

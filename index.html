@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="fr" data-bs-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendrier des Cours INSA</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link href="styles.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Toast container pour les notifications -->
+    <div id="toast-container" class="toast-container position-fixed bottom-0 end-0 p-3"></div>
+
+    <div class="container-fluid">
+        <header class="py-3 mb-3 border-bottom d-flex justify-content-between align-items-center">
+            <h1 class="text-center flex-grow-1">Calendrier des Cours INSA</h1>
+            <button id="themeSwitcher" class="btn btn-outline-secondary me-2">
+                <i class="bi bi-moon-fill"></i> Mode sombre
+            </button>
+        </header>
+
+        <!-- Modification des boutons de navigation des semaines -->
+        <div class="row mb-3">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-center align-items-center flex-wrap">
+                            <button id="prevWeek" class="btn btn-outline-primary me-2 mb-2 mb-sm-0">
+                                <i class="bi bi-arrow-left"></i>
+                            </button>
+                            <button id="currentWeek" class="btn btn-outline-secondary mx-2 mb-2 mb-sm-0">
+                                <i class="bi bi-arrow-down"></i>
+                            </button>
+                            <button id="nextWeek" class="btn btn-outline-primary ms-2 mb-2 mb-sm-0">
+                                <i class="bi bi-arrow-right"></i>
+                            </button>
+                            <span id="weekLabel" class="mx-3 fw-bold text-center">Chargement des semaines...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contenu principal avec mode responsive amélioré -->
+        <div class="row">
+            <!-- Panneau de gauche: desktop=gauche (4 colonnes), mobile=en-dessous du calendrier (pleine largeur) -->
+            <div class="col-12 col-lg-4 order-2 order-lg-1">
+                <!-- Groupes de matières -->
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <span>Groupes de matières</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label for="groupSelector" class="form-label">Appliquer un groupe enregistré:</label>
+                            <div class="input-group">
+                                <select id="groupSelector" class="form-select">
+                                    <option value="">-- Sélectionner un groupe --</option>
+                                    <!-- Options générées dynamiquement -->
+                                </select>
+                                <button id="deleteGroupBtn" class="btn btn-outline-danger">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="groupName" class="form-label">Sauvegarder la sélection actuelle:</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="groupName" placeholder="Nom du groupe">
+                                <button id="saveGroupBtn" class="btn btn-primary">Sauvegarder</button>
+                            </div>
+                            <small class="form-text text-muted">Enregistre les matières et groupes 3A actuellement sélectionnés</small>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Filtres de matières -->
+                <div class="card mb-3">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <span>Filtres des matières</span>
+                        <button id="resetFilters" class="btn btn-sm btn-outline-secondary">Tout afficher</button>
+                    </div>
+                    <div class="card-body">
+                        <div id="loadingIndicator" class="text-center">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Chargement...</span>
+                            </div>
+                            <p>Chargement des calendriers...</p>
+                        </div>
+                        
+                        <div id="filtersContent" style="display: none;">
+                            <div class="mb-2">
+                                <div class="fw-bold mb-2 d-flex justify-content-between">
+                                    <span>Cours 4A (Groupe 3)</span>
+                                    <div>
+                                        <button id="select4aAll" class="btn btn-sm btn-outline-primary">Tout</button>
+                                        <button id="select4aNone" class="btn btn-sm btn-outline-secondary">Aucun</button>
+                                    </div>
+                                </div>
+                                <div id="courses4aList" class="list-group mb-3 course-list">
+                                    <!-- Les cours 4A seront chargés ici -->
+                                </div>
+                            </div>
+                            
+                            <hr>
+                            
+                            <div class="mb-3">
+                                <p>Groupes 3A à afficher:</p>
+                                <div class="d-flex mb-2">
+                                    <div class="form-check me-3">
+                                        <input class="form-check-input group3a-toggle" type="checkbox" value="1" id="group1Checkbox" checked>
+                                        <label class="form-check-label" for="group1Checkbox">Groupe 1</label>
+                                    </div>
+                                    <div class="form-check me-3">
+                                        <input class="form-check-input group3a-toggle" type="checkbox" value="2" id="group2Checkbox" checked>
+                                        <label class="form-check-label" for="group2Checkbox">Groupe 2</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input group3a-toggle" type="checkbox" value="3" id="group3Checkbox" checked>
+                                        <label class="form-check-label" for="group3Checkbox">Groupe 3</label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-2">
+                                <div class="fw-bold mb-2 d-flex justify-content-between">
+                                    <span>Cours 3A</span>
+                                    <div>
+                                        <button id="select3aAll" class="btn btn-sm btn-outline-primary">Tout</button>
+                                        <button id="select3aNone" class="btn btn-sm btn-outline-secondary">Aucun</button>
+                                    </div>
+                                </div>
+                                <div id="courses3aList" class="list-group mb-3 course-list">
+                                    <!-- Les cours 3A seront chargés ici -->
+                                </div>
+                            </div>
+                            
+                            <div id="corsError" class="alert alert-warning mt-3" style="display: none;" role="alert">
+                                <p><strong>Problème lors du chargement des calendriers.</strong></p>
+                                <p>Veuillez réessayer ou contacter l'administrateur du site.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Légende -->
+                <div class="card mb-3">
+                    <div class="card-header">
+                        Légende
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex align-items-center mb-2">
+                            <div class="legend-color bg-4a"></div>
+                            <div>Cours 4A</div>
+                        </div>
+                        <div class="d-flex align-items-center mb-2">
+                            <div class="legend-color bg-3a"></div>
+                            <div>Cours 3A</div>
+                        </div>
+                        <div class="d-flex align-items-center mb-2">
+                            <div class="legend-color bg-conflict"></div>
+                            <div>Conflit d'horaire</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Calendrier: desktop=droite (8 colonnes), mobile=premier (pleine largeur) -->
+            <div class="col-12 col-lg-8 mb-4 order-1 order-lg-2">
+                <div class="calendar-container card">
+                    <div class="card-body p-1 p-md-2">
+                        <div id="calendar"></div>
+                        <div id="noEventsWarning" class="alert alert-info mt-3" style="display: none;" role="alert">
+                            <i class="bi bi-info-circle-fill me-2"></i>
+                            <strong>Aucun cours cette semaine.</strong> Essayez de sélectionner une autre semaine ou vérifiez vos filtres.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/ical.js@1.5.0/build/ical.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

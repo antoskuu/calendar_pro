@@ -5,13 +5,13 @@ const path = require('path');
 const fs = require('fs');
 const cron = require('node-cron');
 const app = express();
-const port = process.env.PORT || 3000;
-
+const port = process.env.PORT || 3001;
+const BASE_PATH = '/calendar-pro';
 // Activer CORS pour toutes les routes
 app.use(cors());
 
 // Servir les fichiers statiques du répertoire actuel
-app.use(express.static(path.join(__dirname)));
+app.use(BASE_PATH, express.static('public'));
 
 // Créer le dossier de cache s'il n'existe pas
 const cacheDir = path.join(__dirname, 'cache');
@@ -155,7 +155,7 @@ cron.schedule('0 0 * * *', () => {
 });
 
 // Endpoint pour obtenir les timestamps disponibles pour les semaines à venir
-app.get('/api/weeks', (req, res) => {
+app.get(`${BASE_PATH}/api/weeks`, (req, res) => {
     const weeks = [];
     const currentWeek = Math.floor(Date.now() / WEEK_IN_MS);
     

@@ -720,7 +720,7 @@ END:VEVENT
      * Récupérer le calendrier 4A
      */
     function fetchCalendar4a() {
-        const url = `/api/calendar?promo=4&groupe=3&weekOffset=${currentWeekOffset}`;
+        const url = `/calendar-pro/api/calendar?promo=4&groupe=3&weekOffset=${currentWeekOffset}`;
         
         return fetch(url)
             .then(response => {
@@ -746,7 +746,7 @@ END:VEVENT
      * Récupérer un calendrier 3A pour un groupe spécifique - VERSION AMÉLIORÉE
      */
     function fetchCalendar3a(group) {
-        const url = `/api/calendar?promo=3&groupe=${group}&weekOffset=${currentWeekOffset}`;
+        const url = `/calendar-pro/api/calendar?promo=3&groupe=${group}&weekOffset=${currentWeekOffset}`;
         
         // Afficher une notification de chargement propre à ce groupe
         const groupText = group === 1 ? "Groupe 1" : (group === 2 ? "Groupe 2" : "Groupe 3");

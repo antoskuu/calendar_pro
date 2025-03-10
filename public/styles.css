@@ -112,6 +112,8 @@ body {
 .card-header {
     background-color: #f1f3f5;
     font-weight: 600;
+    font-size: 0.95rem;
+    padding: 0.5rem 0.75rem;
 }
 
 /* Ajustements pour le mode sombre */
@@ -134,6 +136,11 @@ body {
     margin-right: 0.5rem;
     min-width: 70px;
     text-align: center;
+    font-size: 70% !important;
+}
+
+.course-filter-item label {
+    font-size: 0.85rem;
 }
 
 /* Styles pour les boutons de filtres */
@@ -371,4 +378,40 @@ body {
     .course-list {
         max-height: 200px;
     }
+}
+
+/* Réduction de la taille des textes du calendrier */
+
+/* Réduire la taille du texte dans le calendrier */
+.fc .fc-timegrid-slot-label-cushion,
+.fc .fc-col-header-cell-cushion {
+    font-size: 0.85rem;
+}
+
+/* Réduire la taille des titres de jour */
+.fc-col-header-cell-cushion {
+    font-size: 0.9rem !important;
+    font-weight: 500 !important;
+}
+
+/* Réduire la taille des labels d'heures */
+.fc-timegrid-slot-label-cushion {
+    font-size: 0.8rem !important;
+}
+
+/* Réduire la taille du texte dans les événements */
+.fc-event-title, 
+.fc-event-time {
+    font-size: 0.8rem !important;
+    line-height: 1.2;
+}
+
+/* Réduire la taille de l'en-tête du calendrier */
+.fc-toolbar-title {
+    font-size: 1.1rem !important;
+}
+
+/* Réduire la taille de l'en-tête du calendrier */
+.card-body div {
+    font-size: 0.85rem;
 }

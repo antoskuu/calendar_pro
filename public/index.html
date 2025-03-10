@@ -43,29 +43,38 @@
             </div>
         </div>
 
+        <!-- Nouveau : Sélecteur de groupe au-dessus du calendrier -->
+        <div class="row mb-3">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <span>Sélection de groupe</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <select id="groupSelector" class="form-select me-2">
+                                <option value="">-- Sélectionner un groupe --</option>
+                                <!-- Options générées dynamiquement -->
+                            </select>
+                            <button id="deleteGroupBtn" class="btn btn-outline-danger">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Contenu principal avec mode responsive amélioré -->
         <div class="row">
             <!-- Panneau de gauche: desktop=gauche (4 colonnes), mobile=en-dessous du calendrier (pleine largeur) -->
             <div class="col-12 col-lg-4 order-2 order-lg-1">
-                <!-- Groupes de matières -->
+                <!-- Groupes de matières (maintenant uniquement création) -->
                 <div class="card mb-3">
                     <div class="card-header">
-                        <span>Groupes de matières</span>
+                        <span>Créer un groupe de matières</span>
                     </div>
                     <div class="card-body">
-                        <div class="mb-3">
-                            <label for="groupSelector" class="form-label">Appliquer un groupe enregistré:</label>
-                            <div class="input-group">
-                                <select id="groupSelector" class="form-select">
-                                    <option value="">-- Sélectionner un groupe --</option>
-                                    <!-- Options générées dynamiquement -->
-                                </select>
-                                <button id="deleteGroupBtn" class="btn btn-outline-danger">
-                                    <i class="bi bi-trash"></i>
-                                </button>
-                            </div>
-                        </div>
-                        
                         <div class="mb-3">
                             <label for="groupName" class="form-label">Sauvegarder la sélection actuelle:</label>
                             <div class="input-group">

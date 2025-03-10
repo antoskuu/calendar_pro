@@ -415,3 +415,24 @@ body {
 .card-body div {
     font-size: 0.85rem;
 }
+
+/* Styles pour le sélecteur de groupe */
+#groupSelector {
+    min-width: 200px;
+}
+
+@media (max-width: 576px) {
+    .card-body .d-flex {
+        flex-wrap: wrap;
+    }
+    
+    #groupSelector {
+        min-width: 0;
+        margin-bottom: 0.5rem;
+        width: calc(100% - 50px); /* Laisser de l'espace pour le bouton supprimer */
+    }
+    
+    #deleteGroupBtn {
+        height: 38px; /* Même hauteur que le select */
+    }
+}

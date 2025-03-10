@@ -225,7 +225,6 @@ END:VEVENT
             console.log(`Groupes sauvegardés: ${Object.keys(courseGroups).length} groupes`);
         } catch (error) {
             console.error('Erreur lors de la sauvegarde des groupes:', error);
-            showToast('Erreur lors de la sauvegarde. Vos préférences pourraient ne pas être conservées.');
         }
         
         // Mettre à jour l'interface
@@ -337,9 +336,6 @@ END:VEVENT
         localStorage.setItem('calendarProCourseGroups', JSON.stringify(courseGroups));
         updateGroupSelector();
         
-        // Notification de réussite
-        showToast(`Groupe "${groupName}" sauvegardé avec succès`);
-        
         // Vider le champ de saisie
         groupNameInput.value = '';
         
@@ -448,7 +444,6 @@ END:VEVENT
                         }
                     };
                     
-                    showToast(`Groupe "${groupName}" appliqué`);
                 })
                 .catch(error => {
                     console.error("Erreur lors du chargement des calendriers 3A:", error);
@@ -461,7 +456,6 @@ END:VEVENT
                     document.getElementById('group2Checkbox').checked = previousState.group2;
                     document.getElementById('group3Checkbox').checked = previousState.group3;
                     
-                    showToast(`Erreur lors du chargement du groupe`);
                     document.getElementById('corsError').style.display = 'block';
                     document.getElementById('corsError').textContent = 'Erreur lors du chargement: ' + error.message;
                     
@@ -478,7 +472,6 @@ END:VEVENT
             console.error("Erreur lors de l'application du groupe:", error);
             selector.disabled = false;
             showLoading(false);
-            showToast(`Erreur lors de l'application du groupe`);
         }
     }
     
@@ -748,10 +741,6 @@ END:VEVENT
     function fetchCalendar3a(group) {
         const url = `/calendar-pro/api/calendar?promo=3&groupe=${group}&weekOffset=${currentWeekOffset}`;
         
-        // Afficher une notification de chargement propre à ce groupe
-        const groupText = group === 1 ? "Groupe 1" : (group === 2 ? "Groupe 2" : "Groupe 3");
-        showToast(`Chargement des cours 3A ${groupText}...`);
-        
         return fetch(url)
             .then(response => {
                 if (!response.ok) {
@@ -969,30 +958,32 @@ END:VEVENT
      * Toggle all courses in a list
      */
     function toggleAllCoursesInList(containerId, checked) {
+        // Si on désélectionne tout, commencer par vider complètement l'ensemble
+        if (!checked) {
+            if (containerId === 'courses4aList') {
+                selected4aCourses.clear();
+            } else {
+                selected3aCourses.clear();
+            }
+        }
+        
         document.querySelectorAll(`#${containerId} input[type="checkbox"]`).forEach(checkbox => {
             checkbox.checked = checked;
             
             const courseCode = checkbox.value;
             const yearType = checkbox.dataset.year;
             
-            if (yearType === '4a') {
-                if (checked) {
+            if (checked) {
+                if (yearType === '4a') {
                     selected4aCourses.add(courseCode);
                 } else {
-                    selected4aCourses.delete(courseCode);
-                }
-            } else {
-                if (checked) {
                     selected3aCourses.add(courseCode);
-                } else {
-                    selected3aCourses.delete(courseCode);
                 }
             }
+            // Pas besoin de supprimer individuellement car on a déjà vidé l'ensemble si checked=false
         });
         
         updateCalendarDisplay();
-        
-        // Vérifier si ce changement affecte la sélection de groupe
         checkIfGroupSelectionChanged();
     }
     
@@ -1049,7 +1040,7 @@ END:VEVENT
             let courseCode = '';
             
             // Extract course code using regex
-            const courseMatch = summary.match(/(\d+[A-Z]+-[A-Z]+-\d+\/\d+)/);
+            const courseMatch = summary.match(/(\d+[A-Z]+-[A-Z0-9]+-\d+(?:\/\d+)?)/);
             if (courseMatch) {
                 courseCode = courseMatch[1];
                 
@@ -1191,47 +1182,6 @@ END:VEVENT
         }
         
         return result;
-    }
-    
-    /**
-     * Afficher une notification toast
-     */
-    function showToast(message) {
-        const toastContainer = document.getElementById('toast-container');
-        const toast = document.createElement('div');
-        toast.className = 'toast show';
-        toast.setAttribute('role', 'alert');
-        toast.setAttribute('aria-live', 'assertive');
-        toast.setAttribute('aria-atomic', 'true');
-        
-        toast.innerHTML = `
-            <div class="toast-header">
-                <strong class="me-auto">Notification</strong>
-                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-            </div>
-            <div class="toast-body">
-                ${message}
-            </div>
-        `;
-        
-        toastContainer.appendChild(toast);
-        
-        // Fermer automatiquement après 3 secondes
-        setTimeout(() => {
-            const bsToast = new bootstrap.Toast(toast);
-            bsToast.hide();
-            // Supprimer après l'animation de fermeture
-            toast.addEventListener('hidden.bs.toast', () => {
-                toastContainer.removeChild(toast);
-            });
-        }, 3000);
-        
-        // Permettre la fermeture manuelle
-        const closeButton = toast.querySelector('.btn-close');
-        closeButton.addEventListener('click', () => {
-            const bsToast = new bootstrap.Toast(toast);
-            bsToast.hide();
-        });
     }
     
     /**
